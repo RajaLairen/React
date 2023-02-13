@@ -1,0 +1,24 @@
+upload.on(
+        "state_changed",
+        (snapshot) => {
+          setUploadProgress(
+            (prev) =>
+              prev +
+              Math.floor(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              )
+          );
+        },
+        (error) => {
+          console.log(error);
+        },
+        async () => {
+          getDownloadURL(imageRef)
+            .then((respond) => {
+              setImagePath((prev) => [...prev, respond]);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      );

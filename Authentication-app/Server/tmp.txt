@@ -1,0 +1,58 @@
+const mongoose=require('mongoose');
+const User=require('./model/user');
+const jwt=require('jsonwebtoken');
+
+
+const connectdb=()=>{
+    mongoose.connect("mongodb+srv://ekeithel:x68iG1MgPmQTdwL5@cluster0.evfapms.mongodb.net/ekeithel?retryWrites=true&w=majority").then(()=>{
+        console.log("Connect succesfully");
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
+
+const createUser=async(req,res,next)=>{
+    const {name,email,address,password}=req.body;
+    let token=await generateToken();
+    console.log(token);
+
+    const findUser=await User.findOne({email:email})
+    console.log("Findd");
+    try{
+        if(findUser){
+           console.log("Find");
+            res.status(422).json({error:"Email already taken"});
+        }
+        else{
+            console.log(token);
+            const createdUser=new User({
+                name:name,
+                email:email,
+                address:address,
+                password:password,
+                tokens:token,
+            })
+
+            console.log("Added data");
+            await createdUser.save();
+            
+            res.status(422).json({token:token});
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+const generateToken=async function(){
+    try{
+        let token=await jwt.sign({_id:this._id},"hithisissecretkey123asdffaedeed");
+        return token;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+exports.connectdb=connectdb;
+exports.createUser=createUser;

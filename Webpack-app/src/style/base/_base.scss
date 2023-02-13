@@ -1,0 +1,17 @@
+html{
+    font-size: 62.5%;//16*0.625=10 px by default which means 1 rem=10 px;
+}
+
+body{
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: $m-size;
+    background: $dark-blue;
+}
+
+button{
+    cursor: pointer;
+}
+
+button:disabled{
+    cursor:default;
+}

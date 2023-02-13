@@ -1,0 +1,24 @@
+import "./App.css";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
+function App() {
+  const createCookie = () => {
+    cookies.set("myCat", "Pacman", {
+      path: "/",
+      expires: new Date(Date.now() + 100000),
+    });
+    alert("Set cookie");
+  };
+
+  return (
+    <div>
+      <label>Name</label>
+      <input></input>
+      <br />
+      <button onClick={createCookie}>Submit</button>
+    </div>
+  );
+}
+
+export default App;
